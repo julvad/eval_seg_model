@@ -1,0 +1,5 @@
+,pred_name,Dice,IoU
+0,pred_1.tif,0.7763,0.6344
+1,pred_2.tif,1.0,1.0
+2,pred_3.tif,0.5429,0.3726
+3,pred_4.tif,0.6602,0.4928
