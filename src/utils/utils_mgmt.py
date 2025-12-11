@@ -453,7 +453,7 @@ def rename_safe_to_date(main_folder_path):
             print(f'renamed {dir} to {date}')
 
 
-def create_blank_labels(in_images_folder, tile_size: int = 256):
+def create_blank_labels(in_images_folder, in_labels_folder, tile_size: int = 256):
 
     # Get all image paths
     img_paths = glob.glob(os.path.join(in_images_folder, '*.tif'))
@@ -461,19 +461,18 @@ def create_blank_labels(in_images_folder, tile_size: int = 256):
         print(f'Warning: no .tif images found in {in_images_folder}')
 
     # Create labels folder
-    labels_folder = in_images_folder.replace('images', 'labels')
-    os.makedirs(labels_folder, exist_ok=True)
+    os.makedirs(in_labels_folder, exist_ok=True)
 
     # builds a set for fast check
-    existing_labels = set(os.listdir(labels_folder))
+    existing_labels = set(os.listdir(in_labels_folder))
 
     for img_path in img_paths:
-        lbl_path = img_path.replace('images','labels')
-        lbl_name = os.path.basename(lbl_path)
-
-        if lbl_name in existing_labels:
-            print(f'Skipping label, {lbl_path} already exists')
+        img_name = os.path.basename(img_path)
+        if img_name in existing_labels:
+            print(f'Skipping label {img_name}, already exists')
             continue
+
+        lbl_path = os.path.join(in_labels_folder, img_name)
 
         # If no existing label, create blank label
         # copy georeferencing info from the input tile
